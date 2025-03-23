@@ -1,0 +1,27 @@
+getgenv().NoClip = false
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+UserInputService.InputBegan:Connect(function(Key, GameProcessedEvent)
+	if GameProcessedEvent then
+		return
+	end
+	if Key.KeyCode == Enum.KeyCode.N then
+		if getgenv().NoClip then
+			getgenv().NoClip = false
+		else
+			getgenv().NoClip = true
+		end
+	end
+end)
+RunService.Stepped:Connect(function()
+	if getgenv().NoClip then
+		local LocalPlayerCharacter = game.Players.LocalPlayer.Character
+		LocalPlayerCharacter.Head.CanCollide = false
+		LocalPlayerCharacter.LowerTorso.CanCollide = false
+		LocalPlayerCharacter.UpperTorso.CanCollide = false
+		LocalPlayerCharacter.HumanoidRootPart.CanCollide = false
+		if LocalPlayerCharacter:FindFirstChild("Badge") then
+			LocalPlayerCharacter.Badge.CanCollide = false
+		end
+	end
+end)
